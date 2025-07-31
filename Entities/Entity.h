@@ -18,6 +18,10 @@ protected:
 
     float speed;
 
+    int health = 100;
+
+    int mana;
+
 
 public:
     int getId() const;
@@ -46,6 +50,15 @@ public:
     void moveRight(float dSpeed);
     void moveUp(float dSpeed);
     void moveDown(float dSpeed);
+
+
+    int getHealth();
+
+    void setHealth(int value);
+
+    int getMana();
+
+    void setMana(int value);
 
 
 

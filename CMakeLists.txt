@@ -41,4 +41,8 @@ target_link_libraries(untitled13
         SFML::Audio
         ${LUA_LIBRARIES}
 )
-target_include_directories(untitled13 PRIVATE ${LUA_INCLUDE_DIR})
+
+target_include_directories(untitled13 PRIVATE
+        ${LUA_INCLUDE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/external/sol2/include   # ← new
+)

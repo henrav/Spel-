@@ -1,3 +1,0 @@
-/Users/henrikravnborg/CLionProjects/untitled13/cmake-build-debug-1/CMakeFiles/untitled13.dir
-/Users/henrikravnborg/CLionProjects/untitled13/cmake-build-debug-1/CMakeFiles/edit_cache.dir
-/Users/henrikravnborg/CLionProjects/untitled13/cmake-build-debug-1/CMakeFiles/rebuild_cache.dir

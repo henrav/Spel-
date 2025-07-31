@@ -54,4 +54,22 @@ void Entity::moveRight(float dSpeed) {
     this->shape.move({speed * dSpeed,0});
 }
 
+void Entity::setMana(int value) {
+    this->mana = value;
+}
+
+void Entity::setHealth(int value) {
+    this->health = value;
+}
+
+int Entity::getHealth() {
+    return this->health;
+}
+
+int Entity::getMana() {
+    return this->health;
+}
+
+
+
 

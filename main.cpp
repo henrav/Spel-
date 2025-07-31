@@ -13,7 +13,6 @@ extern "C" {
 #include "Entities/Managers/EntityManager.h"
 #include "Entities/Managers/ProjectileManager.h"
 
-
 std::unordered_map<int, Player> PlayerManager::players;
 int PlayerManager::id = 1;
 std::unordered_map<int, std::unique_ptr<Entity>> EntityManager::entityList;

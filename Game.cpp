@@ -1,7 +1,7 @@
 //
 // Created by Henrik Ravnborg on 2025-07-27.
 //
-
+#include <sol/sol.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "Game.h"
 
@@ -15,6 +15,26 @@ void Game::run() {
 
     window.setActive(false);
     std:: thread thread(&Game::RenderThread, this);
+    sol::state lua;
+    lua.open_libraries(sol::lib::base);
+
+    lua.new_usertype<Entity>("Entity",
+                             sol::constructors<Entity(float, float, float,float)>(),
+
+            // C++ methods exposed to Lua
+                             "getHealth",   &Entity::getHealth,
+                             "setHealth",   &Entity::setHealth
+    );
+
+    lua["entity"] = &entity;
+
+    lua.script_file("../data/test.lua");
+
+    lua.script(R"(
+    print("health before", entity:getHealth())
+    entity:damage(15)
+    print("health after",  entity:getHealth())
+)");
 
 
     while (window.isOpen()){

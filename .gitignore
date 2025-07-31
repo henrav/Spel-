@@ -1,0 +1,5 @@
+cmake-build-*/
+.idea/
+
+# macOS noise
+.DS_Store
