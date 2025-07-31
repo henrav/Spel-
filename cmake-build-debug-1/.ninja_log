@@ -1,0 +1,27 @@
+# ninja log v6
+11	1210	1753824507058594152	CMakeFiles/untitled13.dir/Entities/Projectiles/targetProjectile.cpp.o	6b2a256ed9ad55c7
+11	90	1753272034537347619	CMakeFiles/untitled13.dir/Spells/SpellManager/DebuffManager.cpp.o	1e76ec98cd9fba5b
+667	776	1753824646356901803	untitled13	bd6808490646e781
+9	573	1753824079905093226	CMakeFiles/untitled13.dir/Entities/Drawable.cpp.o	a3bce6c3933246e2
+9	593	1753824079905513854	CMakeFiles/untitled13.dir/Entities/Managers/EntityManager.cpp.o	61a24f24892164f0
+11	812	1753649811652889959	CMakeFiles/untitled13.dir/Player/PlayerManager.cpp.o	aa017096bb71ae8
+2	107	1753992069951472703	build.ninja	50bdf06dd04040ca
+5	208	1753644461776303298	CMakeFiles/untitled13.dir/Bus/EventBuss.cpp.o	817c81a62785e446
+10	1496	1753824507057318560	CMakeFiles/untitled13.dir/main.cpp.o	ff7d31325256c673
+222	255	1753644461993430520	CMakeFiles/untitled13.dir/Spells/Effects/Debuffs.cpp.o	34f14a5e0ea2736a
+8	846	1753649983862912753	CMakeFiles/untitled13.dir/Entities/EntityManager.cpp.o	beb7657bee249122
+11	738	1753649811652678416	CMakeFiles/untitled13.dir/Spells/SpellManager/SpellManager.cpp.o	554cdad8cfc5bcc9
+10	549	1753824079906137441	CMakeFiles/untitled13.dir/Entities/Entity.cpp.o	4a5f053c2e2aad09
+8	667	1753824645697642896	CMakeFiles/untitled13.dir/Game.cpp.o	6a5c09942ee75599
+2	107	1753992069950536414	/Users/henrikravnborg/CLionProjects/untitled13/cmake-build-debug-1/cmake_install.cmake	50bdf06dd04040ca
+10	930	1753824507058128274	CMakeFiles/untitled13.dir/Entities/Projectile.cpp.o	7e3810a0df58d681
+5	222	1753644461776407374	CMakeFiles/untitled13.dir/Player/Player.cpp.o	4ddbe8496988666d
+5	400	1753644461776192972	CMakeFiles/untitled13.dir/thingy.cpp.o	66170867a379e979
+208	242	1753644461979254852	CMakeFiles/untitled13.dir/Spells/Spells/BaseSpell.cpp.o	1f2cf1ecb56f9653
+11	1017	1753824507058307108	CMakeFiles/untitled13.dir/Entities/Managers/ProjectileManager.cpp.o	c5969f2cf1578281
+9	165	1753992094416587613	CMakeFiles/untitled13.dir/luatest.cpp.o	4334766a5f3eb39d
+9	637	1753992094416361739	CMakeFiles/untitled13.dir/Game.cpp.o	6a5c09942ee75599
+8	655	1753992094415783741	CMakeFiles/untitled13.dir/main.cpp.o	ff7d31325256c673
+656	803	1753992095063526796	untitled13	36d3845fd0cd903a
+6	772	1753992115833053019	CMakeFiles/untitled13.dir/Game.cpp.o	6a5c09942ee75599
+773	903	1753992116600436160	untitled13	36d3845fd0cd903a

@@ -1,0 +1,29 @@
+/opt/homebrew/opt/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -DCMAKE_TOOLCHAIN_FILE=/Users/henrikravnborg/.clion-vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake -G Ninja -S /Users/henrikravnborg/CLionProjects/untitled13 -B /Users/henrikravnborg/CLionProjects/untitled13/cmake-build-debug
+CMake Deprecation Warning at /Users/henrikravnborg/.clion-vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake:40 (cmake_policy):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+Call Stack (most recent call first):
+  cmake-build-debug/CMakeFiles/4.0.3/CMakeSystem.cmake:6 (include)
+  CMakeLists.txt:2 (project)
+
+
+CMake Deprecation Warning at /Users/henrikravnborg/.clion-vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake:872 (cmake_policy):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+Call Stack (most recent call first):
+  cmake-build-debug/CMakeFiles/4.0.3/CMakeSystem.cmake:6 (include)
+  CMakeLists.txt:2 (project)
+
+
+-- Found SFML 3.0.1 in /opt/homebrew/lib/cmake/SFML
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/henrikravnborg/CLionProjects/untitled13/cmake-build-debug

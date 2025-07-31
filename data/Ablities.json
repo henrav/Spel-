@@ -1,0 +1,38 @@
+{
+  "abilities" : [
+    {
+      "id" : "FIRE_ARROW",
+      "manaCost" : 100,
+      "cooldown" : 8,
+      "aim" : "TARGET",
+      "pierces_spell_immune" : false,
+      "baseDamage" : 100,
+      "speed" : 10,
+
+      "modifiers" : {
+        "launch_projectile" : {
+          "on_projectile_launch" : {
+
+          },
+
+          "on_projectile_hit" : {
+              "damage" : {
+                "damage" : "%baseDamage",
+                "target" : {
+                  "target" : "TARGET"
+                }
+              },
+              "stun": {
+
+              },
+              "fire_debuff" : {
+
+              }
+          }
+        }
+      }
+    }
+  ]
+
+
+}
