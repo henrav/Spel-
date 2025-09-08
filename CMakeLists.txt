@@ -11,28 +11,28 @@ find_package(Lua 5.4 REQUIRED)
 # ---------------------------------------------------------------------------
 add_executable(untitled13
         main.cpp
-        thingy.cpp
         Bus/EventBuss.cpp
         Player/Player.cpp
-        Spells/SpellManager/SpellManager.cpp
-        Player/PlayerManager.cpp
-        Spells/Spells/BaseSpell.cpp
-        Spells/Effects/Debuffs.cpp
         Game.cpp
         Game.h
         Entities/Drawable.cpp
         Entities/Drawable.h
-        Entities/Projectile.cpp
-        Entities/Projectile.h
         Entities/Managers/EntityManager.cpp
         Entities/Managers/EntityManager.h
         Entities/Entity.cpp
         Entities/Entity.h
         Entities/Managers/ProjectileManager.cpp
         Entities/Managers/ProjectileManager.h
-        Entities/Projectiles/targetProjectile.cpp
-        Entities/Projectiles/targetProjectile.h
-        luatest.cpp
+        LoadGame/loadSpells.cpp
+        LoadGame/loadSpells.h
+        Spells/Spells/allSpells/spellOne.cpp
+        Spells/Spells/Spells.h
+        Spells/Spells/allSpells/spellOne.h
+        Entities/Projectiles/Projectiles.h
+        Entities/Managers/GameEngineAPI.cpp
+        Entities/Managers/GameEngineAPI.h
+        Entities/Managers/Draw.cpp
+        Entities/Managers/Draw.h
 )
 
 target_link_libraries(untitled13

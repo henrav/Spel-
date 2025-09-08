@@ -8,9 +8,8 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
-#include <thread>
-#include "Entities/Managers/ProjectileManager.h"
-#include "Entities/Managers/EntityManager.h"
+
+#include "Entities/Managers/GameEngineAPI.h"
 
 class Game {
     sf::RenderWindow& window;

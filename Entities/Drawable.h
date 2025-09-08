@@ -10,10 +10,11 @@
 #include <iostream>
 
 class Drawable {
-protected:
-    sf::RectangleShape shape;
 public:
-     const sf::RectangleShape &getShape() const;
+    sf::RectangleShape shape;
+
+
+     const sf::RectangleShape &getShape();
 
      void setShape(const sf::RectangleShape &shape);
 
@@ -25,7 +26,9 @@ public:
 
      void setSize(sf::Vector2f size);
 
-    Drawable() = default;
+     Drawable(){
+         shape.setSize({10, 10});
+     }
 
 };
 

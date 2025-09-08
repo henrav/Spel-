@@ -4,7 +4,7 @@
 
 #include "Drawable.h"
 
-const sf::RectangleShape &Drawable::getShape() const {
+const sf::RectangleShape &Drawable::getShape() {
     return shape;
 }
 

@@ -8,6 +8,7 @@
 
 #include "Drawable.h"
 
+
 class Entity : public Drawable{
 protected:
     int id;
@@ -21,6 +22,8 @@ protected:
     int health = 100;
 
     int mana;
+
+    std::vector<int> spellIDs;
 
 
 public:

@@ -5,6 +5,8 @@
 #ifndef UNTITLED13_PLAYER_H
 #define UNTITLED13_PLAYER_H
 
+#include <iostream>
+using namespace std;
 
 class Player {
 private:
@@ -13,7 +15,7 @@ private:
     int mana;
     int posY;
     int posX;
-
+    vector<char> keyBindings;
 
 public:
     Player(int posX, int posY, int health, int mana);
@@ -37,6 +39,8 @@ public:
     int getMana() const;
 
     void setMana(int mana);
+
+    void changeSpellBinding(int pos, char value);
 
 };
 

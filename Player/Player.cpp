@@ -1,7 +1,7 @@
 //
 // Created by Henrik Ravnborg on 2025-07-23.
 //
-
+#include <iostream>
 #include "Player.h"
 
 
@@ -48,4 +48,11 @@ void Player::setMana(int mana) {
 Player::Player(int posX, int posY, int health, int mana) : posX(posX), posY(posY),
                                                                          health(health), mana(mana) {
 
+}
+
+
+void Player::changeSpellBinding(int pos, char value) {
+    if(pos > 4 || pos < 0)
+        throw std::out_of_range("Cant change spellbinding, index out of bounds");
+    keyBindings[pos] = value;
 }

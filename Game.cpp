@@ -4,61 +4,47 @@
 #include <sol/sol.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "Game.h"
+#include "Spells/Spells/Spells.h"
+#include "Entities/Entity.h"
+#include <thread>
 
+Spell myTestSpell(int ownerID);
 
 void Game::run() {
-    auto& projectile = ProjectileManager::addProjectile<targetProjectile>(500 ,10, 10, 1, sf::Vector2f{600, 20});
 
-    auto& entity1 = EntityManager::addEntity<Entity>(10, 200, 10, 30);
-    auto& entity = EntityManager::addEntity<Entity>(10, 200, 10, 300);
-    entity.setSize({20, 20});
+    auto& player = GameEngineAPI::addEntity<Entity>(10, 200, 10, 300);
+    player.setSize({20, 20});
+
 
     window.setActive(false);
     std:: thread thread(&Game::RenderThread, this);
-    sol::state lua;
-    lua.open_libraries(sol::lib::base);
-
-    lua.new_usertype<Entity>("Entity",
-                             sol::constructors<Entity(float, float, float,float)>(),
-
-            // C++ methods exposed to Lua
-                             "getHealth",   &Entity::getHealth,
-                             "setHealth",   &Entity::setHealth
-    );
-
-    lua["entity"] = &entity;
-
-    lua.script_file("../data/test.lua");
-
-    lua.script(R"(
-    print("health before", entity:getHealth())
-    entity:damage(15)
-    print("health after",  entity:getHealth())
-)");
+    auto spell = myTestSpell(player.getId());
 
 
     while (window.isOpen()){
         acc += clock.restart().asSeconds();
         while (acc >= dt) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W)){
-                entity.moveUp(dt);
+                player.moveUp(dt);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S)){
-                entity.moveDown(dt);
+                player.moveDown(dt);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A)){
-                entity.moveLeft(dt);
+                player.moveLeft(dt);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D)){
-                entity.moveRight(dt);
+                player.moveRight(dt);
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Q)){
+                player.moveRight(dt);
+                spell.onCast();
             }
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::E)){
-                ProjectileManager::addProjectile<targetProjectile>(500 ,10, 10, 1, sf::Vector2f {entity.getShape().getPosition().x, entity.getShape().getPosition().y,});
-
-                std::cout << entity.getShape().getPosition().x << "y" << entity.getShape().getPosition().y << std::endl;
+                spell.onHit();
             }
-            ProjectileManager::update(dt);
+            GameEngineAPI::update(0.16);
             acc -= dt;
         }
         while (const std::optional event = window.pollEvent())
@@ -80,8 +66,7 @@ void Game::RenderThread() {
     while (window.isOpen())
     {
         window.clear(sf::Color::Black);
-        ProjectileManager::drawProjectiles(window);
-        EntityManager::drawEntities(window);
+        GameEngineAPI::draw(window);
         window.display();
     }
 }

@@ -7,17 +7,13 @@ extern "C" {
 #include <thread>
 #include "SFML/Graphics.hpp"
 #include "Game.h"
-#include "Entities/Projectile.h"
-#include "Player/PlayerManager.h"
-#include "Spells/SpellManager/SpellManager.h"
 #include "Entities/Managers/EntityManager.h"
 #include "Entities/Managers/ProjectileManager.h"
 
-std::unordered_map<int, Player> PlayerManager::players;
-int PlayerManager::id = 1;
-std::unordered_map<int, std::unique_ptr<Entity>> EntityManager::entityList;
+
+std::unordered_map<int, std::shared_ptr<Entity>> EntityManager::entityList;
 int EntityManager::entityID = 1;
-std::unordered_map<int, std::unique_ptr<Projectile>> ProjectileManager::projectileList;
+std::unordered_map<int, std::shared_ptr<Projectile>> ProjectileManager::projectileList;
 int ProjectileManager::projectileID = 1;
 
 using namespace std;
