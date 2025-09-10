@@ -33,6 +33,10 @@ add_executable(untitled13
         Entities/Managers/GameEngineAPI.h
         Entities/Managers/Draw.cpp
         Entities/Managers/Draw.h
+        Bus/GameEvents.h
+        Bus/EventBuss.h
+        Map/Map.cpp
+        Map/Map.h
 )
 
 target_link_libraries(untitled13

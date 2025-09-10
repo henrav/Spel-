@@ -10,6 +10,10 @@ void ProjectileManager::addProjectile(std::shared_ptr<Projectile> projectile) {
     projectileList.emplace(projectileID++, std::move(projectile));
 }
 
+
+
+
+
 void ProjectileManager::update(const float dt) {
     for (const auto& e : projectileList){
         e.second->update(*e.second);

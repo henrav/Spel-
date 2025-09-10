@@ -29,10 +29,9 @@ Spell myTestSpell(int ownerID){
 
     s.onCast = [variables](){
         auto p = std::make_shared<Projectile>();
+        GameEngineAPI::spawnProjectile(p);
         p->speed = 1;
         p->targetID = 1;
-        GameEngineAPI::spawnProjectile(p);
-
         p->onHit = [variables](Projectile& self){
 
         };
@@ -47,6 +46,7 @@ Spell myTestSpell(int ownerID){
                 sf::Vector2f step = (self.speed / len) * d;
                 self.moveShape(step);
             }
+
         };
 
         p->onCollision = [variables](Projectile& self){
@@ -54,8 +54,6 @@ Spell myTestSpell(int ownerID){
             //deal damage and continue moving untill reached end
             //if unit target do nothing unless collision with target
         };
-
-
     };
 
 

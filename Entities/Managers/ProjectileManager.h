@@ -11,7 +11,10 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 struct Projectile;
-
+struct Vec2 {
+    float x;
+    float y;
+};
 class ProjectileManager {
 private:
     static std::unordered_map<int, std::shared_ptr<Projectile>> projectileList;
@@ -20,6 +23,8 @@ public:
 
 
     static void addProjectile(std::shared_ptr<Projectile> projectile);
+
+
 
     /*
      *

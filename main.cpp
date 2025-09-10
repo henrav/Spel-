@@ -9,7 +9,7 @@ extern "C" {
 #include "Game.h"
 #include "Entities/Managers/EntityManager.h"
 #include "Entities/Managers/ProjectileManager.h"
-
+#include "Map/Map.h"
 
 std::unordered_map<int, std::shared_ptr<Entity>> EntityManager::entityList;
 int EntityManager::entityID = 1;
@@ -21,21 +21,16 @@ using namespace std;
 
 int main() {
 
-    lua_State* L = luaL_newstate();
-    luaL_openlibs(L);
-
     sf::RenderWindow window(sf::VideoMode({1920, 1080}), "test");
     window.setActive(false);
 
-
+/*
     Game game(window);
     game.run();
+    */
 
+Map map;
+map.genMap();
 
-    if (luaL_dostring(L, "print('Hello from Lua!')")) {
-        std::cerr << "Lua error: " << lua_tostring(L, -1) << std::endl;
-    }
-
-    lua_close(L);                       // Clean up
     return 0;
 }

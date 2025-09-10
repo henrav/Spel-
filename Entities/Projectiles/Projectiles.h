@@ -11,6 +11,8 @@
 struct Projectile : public Drawable {
     int id;
     int ownerID = 0;
+    bool isUnitTargetable = false;
+    bool isAreaTargetable = false;
 
     //optional
     int targetID = 0;

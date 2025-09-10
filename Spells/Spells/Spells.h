@@ -9,6 +9,7 @@
 #pragma once
 #include "iostream"
 #include "any"
+#include "../../Bus/GameEvents.h"
 #include <SFML/System.hpp>
 #include <functional>
 
@@ -16,40 +17,14 @@ struct EngineAPI; // forward
 struct Unit { int id = 0; };
 struct ProjectileAPI;
 
-enum DamageType{
-    PHSYICAL,
-    MAGICAL,
-    PURE,
-};
-
-
-struct DamageInstance{
-    float amount = 0;
-    DamageType damageType = MAGICAL;
-
-    DamageInstance(float amount, DamageType damageType) : amount(amount), damageType(damageType) {};
-    DamageInstance();
-};
-
-enum Resource{
-    MANA,
-    HEALTH,
-    ENERGY,
-    NONE
-};
 /**
  * @brief Represents the cost of a resource required to perform an action, such as casting a spell.
  *
  * @param amount The quantity of the resource required.
  * @param resource The type of resource (e.g., MANA, HEALTH, ENERGY).
  */
-struct ResourceCost {
-    float amount = 0;
-    Resource resource = NONE;
 
-    ResourceCost(float amount, Resource resource) : amount(amount), resource(resource) {}
-    ResourceCost() = default;
-};
+
 
 
 struct Spell{
