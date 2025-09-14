@@ -4,6 +4,9 @@
 
 #ifndef UNTITLED13_MAP_H
 #define UNTITLED13_MAP_H
+
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include "iostream"
 
 enum Direction{
@@ -18,20 +21,39 @@ struct History{
     Direction direction = NONE;
     int X;
     int Y;
+    int width;
 
+    History(int y, int x, Direction direction1, int width) : Y(y), X(x), direction(direction1), width(width){};
     History(int y, int x, Direction direction1) : Y(y), X(x), direction(direction1){};
     History(int y, int x) : Y(y), X(x){};
 
 };
 
+struct potentialDig{
+    int length;
+    Direction direction;
+};
+struct DugBatch {
+    std::vector<std::pair<int, int>> cells;
+    int steps = 0;
+};
 class Map {
 private:
     std::vector<History> history;
     std::vector<std::vector<bool>> minkarta;
-    int mapSize = 50;
-    int mazeLength = 400;
+    int mapSize = 200;
+    int mazeLength = 30;
+    std::vector<std::vector<sf::RectangleShape>> karta;
+    float blockSize = 5;
+    float posOff = 6;
+    sf::Clock clock;
+    int corridorWidth = 4;
+    int lastCorridorWidth= 0;
+    std::vector<std::pair<int, int>> undoStack;
 
 public:
+
+    void undoDigging(int length);
     void genMap();
 
     static Direction getDirection(int value);
@@ -42,17 +64,33 @@ public:
 
     Direction randomDirection();
 
-    void digPoint(int y, int x, Direction direction);
+    void digPoint(int y, int x, Direction direction, int width);
 
     bool isDug(int y, int x);
 
     int randomNR();
 
-    bool isDug(int length, Direction direction);
+    bool isDug(int length, Direction direction, int width);
 
     Direction oppositeDirection(Direction direction);
 
-    void dig(Direction direction, int length);
+    void dig(Direction direction, int length, int width);
+
+    std::vector<std::vector<bool>> importMap();
+
+    void drawKarta(sf::RenderWindow& window);
+
+    float getSize() const{
+        return static_cast<float>(mapSize);
+    }
+
+    float getOff(){
+        return static_cast<float>(posOff);
+    }
+
+    potentialDig getPotDig(int width, bool b = false);
+
+    int GenRandomNR(int min, int max);
 };
 
 
