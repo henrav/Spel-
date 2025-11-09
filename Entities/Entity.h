@@ -27,6 +27,7 @@ protected:
 
 
 public:
+    Entity() = default;
     int getId() const;
 
     void setId(int id);

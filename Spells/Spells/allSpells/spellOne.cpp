@@ -6,6 +6,7 @@
 #include "../../../Entities/Projectiles/Projectiles.h"
 #include <memory>
 #include <cmath>
+#include "../../../Entities/Managers/GameEngineAPI.h"
 
 Spell myTestSpell(int ownerID){
 
@@ -27,19 +28,18 @@ Spell myTestSpell(int ownerID){
         //TODO
     };
 
-    s.onCast = [variables](){
-        auto p = std::make_shared<Projectile>();
-        GameEngineAPI::spawnProjectile(p);
-        p->speed = 1;
-        p->targetID = 1;
-        p->onHit = [variables](Projectile& self){
+    s.onCast = [variables, &s](){
+        auto& p = Engine::spawnProjectile<Projectile>(Engine::getUnitPos(s.ownerID).x, Engine::getUnitPos(s.ownerID).y);
+        p.speed = 1;
+        p.targetID = 1;
+        p.onHit = [variables](Projectile& self){
 
         };
 
-        p->update = [variables](Projectile& self) {
+        p.update = [variables](Projectile& self) {
             std::cout<<"tjena"<<std::endl;
             std::cout<<"pos X: " << self.getShape().getPosition().x << std::endl;
-            sf::Vector2f d = GameEngineAPI::getUnitPos(self.targetID) - self.getShape().getPosition();
+            sf::Vector2f d = Engine::getUnitPos(self.targetID) - self.getShape().getPosition();
             float len2 = d.x*d.x + d.y*d.y;
             if (len2 > 0.0001f) {
                 float len = std::sqrt(len2);
@@ -49,7 +49,7 @@ Spell myTestSpell(int ownerID){
 
         };
 
-        p->onCollision = [variables](Projectile& self){
+        p.onCollision = [variables](Projectile& self){
             //TODO if locationTargetable
             //deal damage and continue moving untill reached end
             //if unit target do nothing unless collision with target

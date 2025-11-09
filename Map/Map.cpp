@@ -60,10 +60,8 @@ void Map::genMap() {
         }
     };
 
-    history.emplace_back(mapSize / 2, mapSize / 2, DOWN);
-    for (int i = -(corridorWidth - 1) / 2; i < (corridorWidth - 1) / 2; i++ ){
-        minkarta[mapSize / 2][mapSize + i / 2] = true;
-    }
+
+
     bool backtrack = false;
     /*
     while (!history.empty()) {
@@ -129,63 +127,112 @@ void Map::genMap() {
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist15(1,20);
     int totalLength = 0;
-    int length = 300;
+    int length = 1000;
     bool found = false;
-    int a = 0;
-    int maxRooms = 20;
-    int minRooms = 4;
-    while (true) {
-        history.clear();
-        undoStack.clear();
-        history.emplace_back(mapSize / 2, mapSize / 2, DOWN );
+    int maxRooms = 5;
+    int minRooms = 5;
+    int it = 0;
+    corridorWidth = 5;
 
-        corridorWidth = 3;
+    int digSteps  = 0;
+    int rooms     = 0;
+    int tries = 0;
+    int backtrackDepth = 1;
+    const int maxBacktrackDepth = 64;
+    const int minRoomGap = 100;
+    int nextRoomAt = minRoomGap;
+    bool back = false;
+    std::vector<int> roomEndPos;
+    roomEndPos.reserve(maxRooms + 4);
+    history.emplace_back(mapSize / 2, mapSize / 2, DOWN);
+    dig(DOWN, 30, 15);
 
-        int digSteps  = 0;
-        int hits      = 0;
-        int rooms     = 0;
+    starty = mapSize / 2 + 15;
+    startx = mapSize / 2;
 
-        const int minRoomGap = 25;
-        int nextRoomAt = minRoomGap;
+    while (rooms < maxRooms) {
 
-        for (int i = 0; i < length; ++i) {
-            bool allowRoom = (digSteps >= nextRoomAt) && (rooms < maxRooms)
-                             && (history.back().width == corridorWidth);
+        bool allowRoom = (digSteps >= nextRoomAt)
+                         && (history.back().width < corridorWidth +3);
+        if (rooms == 0){
+            allowRoom = true;
+        }
+        int chosenWidth  = corridorWidth;
+        bool makeRoom    = false;
+        bool randomWidth = false;
 
-            int chosenWidth = corridorWidth;
-            bool makeRoom   = false;
-            bool randomWidth = false;
-
-            if (allowRoom && dist15(rng) < 15) {
-                if (dist15(rng) < 2){
-                    chosenWidth = corridorWidth * GenRandomNR(3, 5);
-                    makeRoom    = true;
-                }else{
-                    chosenWidth += GenRandomNR(1, 2);
-                    randomWidth = true;
-                }
+        if (allowRoom) {
+            if (dist15(rng) < 10){
+                chosenWidth = corridorWidth * GenRandomNR(3, 4);
+                makeRoom    = true;
             }
+        }
 
-            potentialDig d = getPotDig(chosenWidth, makeRoom || randomWidth);
-            if (d.length == 0) break;
+        if (dist15(rng) <= 15) {
+            chosenWidth += GenRandomNR(1, 2);
+            randomWidth  = true;
+        }
 
+        potentialDig d = getPotDig(chosenWidth, makeRoom || randomWidth);
+        if (d.length == 0) {
+            while (!history.empty()){
+                bool lastWasRoom = history.back().width >= corridorWidth*2;
+                int lastLength = history.back().length;
+                it       -= history.back().length;
+                undoDigging();
+                if (!lastWasRoom){
+                    nextRoomAt -= lastLength;
+                }else{
+                    rooms--;
+                }
+                allowRoom = (digSteps >= nextRoomAt)
+                                 && (history.back().width < corridorWidth +3);
+                chosenWidth  = corridorWidth;
+                makeRoom    = false;
+                randomWidth = false;
+
+                if (allowRoom) {
+                    if (dist15(rng) < 10){
+                        chosenWidth = corridorWidth * GenRandomNR(3, 4);
+                        makeRoom    = true;
+                    }
+                }
+
+                if (dist15(rng) <= 15) {
+                    chosenWidth += GenRandomNR(1, 2);
+                    randomWidth  = true;
+                }
+
+                d = getPotDig(chosenWidth, (makeRoom || randomWidth));
+                if (d.length != 0) break;
+                tries++;
+            }
+        }
+        if (d.length != 0){
             dig(d.direction, d.length, chosenWidth);
 
             digSteps += d.length;
-            ++hits;
-
             if (makeRoom) {
+                roomEndPos.push_back(digSteps);
+                nextRoomAt =  d.length + GenRandomNR(minRoomGap, minRoomGap + 50);
                 ++rooms;
-                nextRoomAt = digSteps + GenRandomNR(minRoomGap, minRoomGap + 10);
             }
+            it += d.length;
+            back = false;
         }
 
-        if (digSteps < length || rooms < minRooms) {
-            undoDigging(digSteps);
-            a--;
-        } else {
-            break;
-        }
+
+
+
+       std::this_thread::sleep_for(100ms);
+
+
+
+
+
+
+        std::cout << it << std::endl;
+
 
     }
 
@@ -206,19 +253,29 @@ void Map::genMap() {
 
 }
 
-void Map::undoDigging(int length){
-    std::cout << undoStack.size() << std:: endl;
-    for (auto it = undoStack.rbegin(); it != undoStack.rend(); ++it) {
-        int y = it->first, x = it->second;
-        if (minkarta[y][x]) {
+void Map::undoDigging() {
+    if (history.empty()) return;
+    Direction d = history.back().direction;
+    int halfWidth = history.back().width;
+    int steps     = history.back().length;
+
+    long long cellsToRevert = 1LL * steps * (2*halfWidth + 1);
+
+    int n = (int)std::min<long long>(cellsToRevert, undoStack.size());
+
+    while (n-- > 0 && !undoStack.empty()) {
+        auto [y, x] = undoStack.back();
+        undoStack.pop_back();
+        if (y >= 0 && x >= 0 && minkarta[y][x]) {
             minkarta[y][x] = false;
             karta[y][x].setFillColor(sf::Color::White);
         }
     }
-    undoStack.clear();
-    for (int i = 0; i < length; ++i) {
+
+    for (int i = 0; i < steps && !history.empty(); ++i) {
         history.pop_back();
     }
+    history.back().markTried(d);
 }
 
 potentialDig Map::getPotDig(int width, bool room) {
@@ -228,15 +285,15 @@ potentialDig Map::getPotDig(int width, bool room) {
     do{
         direction = randomDirection();
 
-        if (direction == oppositeDirection(history.back().direction) && direction == oppositeDirection(history[history.size() -1].direction)) {
-            ++tries;
-        }else {
+        if (direction == oppositeDirection(history.back().direction) ){tries++; continue;}
+        if (history.back().isTried(direction)){tries++; continue;}
+
 
             length = !room ? randomNR() : width * 2;
 
             if (!isDug(length, direction, width)) return {length, direction};
+        history.back().markTried(direction);
             ++tries;
-        }
 
     } while (tries < 32);
     return {0, NONE};
@@ -262,7 +319,7 @@ void Map::dig(Direction direction, int length, int width) {
                         undoStack.emplace_back(centerY, centerX + offset);
                     }
                 }
-                digPoint(centerY, centerX, UP, width);
+                digPoint(centerY, centerX, UP, width, length);
 
             }
             break;
@@ -285,7 +342,8 @@ void Map::dig(Direction direction, int length, int width) {
                     undoStack.emplace_back(centerY + offset, centerX);
                     }
                 }
-                digPoint(centerY, centerX, RIGHT, width);
+                digPoint(centerY, centerX, RIGHT, width, length);
+
             }
             break;
         }
@@ -306,7 +364,7 @@ void Map::dig(Direction direction, int length, int width) {
                         undoStack.emplace_back(centerY, centerX + offset);
                     }
                 }
-                digPoint(centerY, centerX, DOWN, width);
+                digPoint(centerY, centerX, DOWN, width, length);
             }
             break;
         }
@@ -329,7 +387,8 @@ void Map::dig(Direction direction, int length, int width) {
                     }
 
                 }
-                digPoint(centerY, centerX, LEFT, width);
+                digPoint(centerY, centerX, LEFT, width, length);
+
             }
             break;
         }
@@ -356,7 +415,7 @@ Direction Map::oppositeDirection(Direction direction){
 
 bool Map::isDug(int length, Direction direction, int width){
     int previousWidth = history.back().width;
-    int padding = 2;
+    int padding = 5;
     Direction lastDirr = history.back().direction;
     int historyX = history.back().X;
     int historyY = history.back().Y;
@@ -450,9 +509,9 @@ bool Map::isDug(int length, Direction direction, int width){
     return false;
 }
 
-void Map::digPoint(int y, int x, Direction direction, int width){
+void Map::digPoint(int y, int x, Direction direction, int width, int length) {
     minkarta[y][x] = true;
-    history.emplace_back(y, x, direction, width);
+    history.emplace_back(y, x, direction, width, length);
     karta[y][x].setFillColor(sf::Color::Red);
 }
 
@@ -466,7 +525,7 @@ Direction Map::randomDirection(){
 int Map::randomNR(){
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist6(2,4);
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(3,4);
     return dist6(rng);
 }
 

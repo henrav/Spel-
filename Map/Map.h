@@ -22,10 +22,22 @@ struct History{
     int X;
     int Y;
     int width;
+    int length;
+    std::vector<Direction> triedD;
 
     History(int y, int x, Direction direction1, int width) : Y(y), X(x), direction(direction1), width(width){};
+    History(int y, int x, Direction direction1, int width, int length) : Y(y), X(x), direction(direction1), width(width), length(length){};
     History(int y, int x, Direction direction1) : Y(y), X(x), direction(direction1){};
     History(int y, int x) : Y(y), X(x){};
+
+    bool isTried(Direction d) const {
+        return std::find(triedD.begin(), triedD.end(), d) != triedD.end();
+    }
+
+
+    void markTried(Direction d) {
+        if (!isTried(d)) triedD.push_back(d);
+    }
 
 };
 
@@ -41,7 +53,7 @@ class Map {
 private:
     std::vector<History> history;
     std::vector<std::vector<bool>> minkarta;
-    int mapSize = 200;
+    int mapSize = 300;
     int mazeLength = 30;
     std::vector<std::vector<sf::RectangleShape>> karta;
     float blockSize = 5;
@@ -50,10 +62,13 @@ private:
     int corridorWidth = 4;
     int lastCorridorWidth= 0;
     std::vector<std::pair<int, int>> undoStack;
+    int startx;
+    int starty;
+
 
 public:
 
-    void undoDigging(int length);
+    void undoDigging();
     void genMap();
 
     static Direction getDirection(int value);
@@ -64,7 +79,7 @@ public:
 
     Direction randomDirection();
 
-    void digPoint(int y, int x, Direction direction, int width);
+    void digPoint(int y, int x, Direction direction, int width, int i);
 
     bool isDug(int y, int x);
 
@@ -91,6 +106,14 @@ public:
     potentialDig getPotDig(int width, bool b = false);
 
     int GenRandomNR(int min, int max);
+
+    std::vector<std::vector<bool>> getMap(){
+        return minkarta;
+    }
+
+    sf::Vector2f getstartPos() const{
+        return {static_cast<float>(startx), static_cast<float>(starty)};
+    }
 };
 
 

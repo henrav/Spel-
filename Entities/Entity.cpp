@@ -40,18 +40,25 @@ float Entity::getSpeed() {
 
 void Entity::moveLeft(float dSpeed) {
     this->shape.move({-speed * dSpeed,0});
+    std::cout<< "pos x: " << this->shape.getPosition().x << "pos x: " << this->shape.getPosition().y << std::endl;
+
 }
 
 void Entity::moveUp(float dSpeed) {
     this->shape.move({0,-speed * dSpeed});
+    std::cout<< "pos x: " << this->shape.getPosition().x << "pos x: " << this->shape.getPosition().y << std::endl;
 }
 
 void Entity::moveDown(float dSpeed) {
     this->shape.move({0,speed * dSpeed});
+    std::cout<< "pos x: " << this->shape.getPosition().x << "pos x: " << this->shape.getPosition().y << std::endl;
+
 }
 
 void Entity::moveRight(float dSpeed) {
     this->shape.move({speed * dSpeed,0});
+    std::cout<< "pos x: " << this->shape.getPosition().x << "pos x: " << this->shape.getPosition().y << std::endl;
+
 }
 
 void Entity::setMana(int value) {

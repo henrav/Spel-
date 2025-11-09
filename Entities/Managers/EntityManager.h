@@ -12,27 +12,37 @@ struct Entity;
 
 class EntityManager {
 private:
-    static std::unordered_map<int, std::shared_ptr<Entity>> entityList;
-    static int entityID;
+    std::unordered_map<int, std::shared_ptr<Entity>> entityList;
+    int nextId = 1;
 public:
+    EntityManager() = default;
+    ~EntityManager() = default;
 
+    template<class T, class... Args>
+    T& addEntity(Args&&... args) {
+        static_assert(std::is_base_of_v<Entity, T>, "T must derive from Entity");
 
-    template<class T, typename... Args>
-    static Entity& addEntity(Args&&... args){
-            static_assert(std::is_base_of_v<Entity, T>, "T must derive from Projectile");
+        auto ptr = std::make_shared<T>(std::forward<Args>(args)...);
+        std::cout<< "playerid: " << nextId << std::endl;
+        setID(nextId, *ptr);
 
-            auto ptr = std::make_shared<T>(std::forward<Args>(args)...);
-            ptr->setId(entityID);
-
-            auto& ref = *ptr;
-            entityList.emplace(entityID++, std::move(ptr));
-            return ref;
+        auto& ref = *ptr;
+        entityList.emplace(nextId++, std::move(ptr));
+        return static_cast<T&>(ref);
     }
 
-    static Entity& find(int id);
+        void setID(int id, Entity &entity);
 
+     Entity& find(int id);
+     Entity* tryFind(int id) noexcept;
 
-    static void drawEntities(sf::RenderWindow& w);
+     sf::Vector2f getUnitPos(int id);
+
+    void drawEntities(sf::RenderWindow& w);
+
+    void clear() { entityList.clear(); nextId = 1; }
+
+    void setUnitPos(sf::Vector2f, int id);
 };
 
 

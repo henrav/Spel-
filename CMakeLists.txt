@@ -11,7 +11,6 @@ find_package(Lua 5.4 REQUIRED)
 # ---------------------------------------------------------------------------
 add_executable(untitled13
         main.cpp
-        Bus/EventBuss.cpp
         Player/Player.cpp
         Game.cpp
         Game.h
@@ -33,10 +32,17 @@ add_executable(untitled13
         Entities/Managers/GameEngineAPI.h
         Entities/Managers/Draw.cpp
         Entities/Managers/Draw.h
-        Bus/GameEvents.h
-        Bus/EventBuss.h
         Map/Map.cpp
         Map/Map.h
+        Map/Map.cpp
+        Map/GameMap.cpp
+        Map/GameMap.h
+        Entities/Managers/Collision/CollisionManager.cpp
+        Entities/Managers/Collision/CollisionManager.h
+        Entities/Managers/CombatSystem/SpellHandler.cpp
+        Entities/Managers/CombatSystem/SpellHandler.h
+        Bus/EventHandler.h
+        Bus/Events.h
 )
 
 target_link_libraries(untitled13

@@ -10,13 +10,14 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
 #include "Entities/Managers/GameEngineAPI.h"
+#include "Entities/Entity.h"
 
 class Game {
     sf::RenderWindow& window;
-
     const float dt      = 1.f / 120.f;
     float       acc     = 0.f;
     sf::Clock   clock;
+    Entity* player;
 public:
     void draw();
 

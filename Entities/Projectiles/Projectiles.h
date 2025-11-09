@@ -9,6 +9,11 @@
 #include "../../Entities/Drawable.h"
 
 struct Projectile : public Drawable {
+
+    Projectile();
+    Projectile(float x, float y){
+        shape.setPosition({x, y});
+    };
     int id;
     int ownerID = 0;
     bool isUnitTargetable = false;

@@ -5,12 +5,6 @@
 #include "ProjectileManager.h"
 #include "../Projectiles/Projectiles.h"
 
-void ProjectileManager::addProjectile(std::shared_ptr<Projectile> projectile) {
-    projectile->id = projectileID;
-    projectileList.emplace(projectileID++, std::move(projectile));
-}
-
-
 
 
 
@@ -24,4 +18,8 @@ void ProjectileManager::drawProjectiles(sf::RenderWindow &w) {
     for (const auto& e : projectileList){
         w.draw(e.second->getShape());
     }
+}
+
+void ProjectileManager::setID(int id, Projectile& projectile) {
+    projectile.id = id;
 }
